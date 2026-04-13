@@ -1,0 +1,46 @@
+system:
+  name: "Agent Strategy Drift Detection"
+  version: "1.0.0"
+  log_level: "INFO"
+
+baseline:
+  window_size: 50
+  model_name: "all-MiniLM-L6-v2"
+  embedding_dim: 384
+
+detector:
+  adwin_delta: 0.002
+  asi_threshold: 0.15
+  kl_threshold: 2.0
+  rolling_window: 50
+
+metrics:
+  weights:
+    response_consistency: 0.30
+    tool_usage: 0.25
+    inter_agent_coordination: 0.25
+    behavioral_boundaries: 0.20
+
+enforcer:
+  mandate_path: "mandate.yaml"
+  strict_mode: true
+
+memory:
+  consolidation_interval: 50
+  raw_context_window: 10
+  max_episodes: 1000
+
+chain:
+  db_path: "/tmp/drift_detection_audit.db"
+  simulate_block_time: false
+
+benchmark:
+  n_sessions: 100
+  drift_turns: [50, 100, 200]
+  seed: 42
+  output_dir: "/tmp/benchmark_results"
+
+api:
+  host: "0.0.0.0"
+  port: 8765
+  reload: false

@@ -1,0 +1,54 @@
+mandate:
+  name: "Conservative Market Maker"
+  version: "1.0"
+  description: "Trading mandate for conservative market-making strategy"
+  effective_date: "2024-01-01"
+
+  rules:
+    - id: RULE_001
+      description: "Position size must not exceed 10000"
+      field: position_size
+      operator: lte
+      value: 10000
+      action: block
+      severity: CRITICAL
+
+    - id: RULE_002
+      description: "Only approved strategies allowed"
+      field: strategy
+      operator: in
+      value: ["market_making", "arbitrage", "hedging"]
+      action: block
+      severity: CRITICAL
+
+    - id: RULE_003
+      description: "Max drawdown must not exceed 5%"
+      field: drawdown_pct
+      operator: lte
+      value: 5.0
+      action: block
+      severity: CRITICAL
+
+    - id: RULE_004
+      description: "Prohibited asset classes"
+      field: asset_class
+      operator: not_in
+      value: ["crypto_derivatives", "penny_stocks"]
+      action: block
+      severity: CRITICAL
+
+    - id: RULE_005
+      description: "Leverage must not exceed 2x"
+      field: leverage
+      operator: lte
+      value: 2.0
+      action: block
+      severity: WARNING
+
+    - id: RULE_006
+      description: "Daily trade count must not exceed 1000"
+      field: daily_trades
+      operator: lte
+      value: 1000
+      action: block
+      severity: WARNING
